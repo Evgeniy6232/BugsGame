@@ -237,11 +237,33 @@ private fun BirthDateField(
 ) {
     var showDialog by remember { mutableStateOf(false) }
 
+    // Год, до которого можно выбрать дату (день рождения не может быть в будущем)
+    val currentYear = remember { LocalDate.now().year }
+
+    val valueMillis = value
+        ?.atStartOfDay(ZoneOffset.UTC)
+        ?.toInstant()
+        ?.toEpochMilli()
+
     val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = value
-            ?.atStartOfDay(ZoneOffset.UTC)
-            ?.toInstant()
-            ?.toEpochMilli()
+        initialSelectedDateMillis = valueMillis,
+        initialDisplayedMonthMillis = valueMillis
+            ?: LocalDate.of(2000, 1, 1)
+                .atStartOfDay(ZoneOffset.UTC)
+                .toInstant()
+                .toEpochMilli(),
+
+        yearRange = 1960..currentYear,
+
+        selectableDates = remember(currentYear) {
+            object : SelectableDates {
+                override fun isSelectableDate(utcTimeMillis: Long): Boolean =
+                    utcTimeMillis <= System.currentTimeMillis()
+
+                override fun isSelectableYear(year: Int): Boolean =
+                    year <= currentYear
+            }
+        }
     )
 
     OutlinedTextField(

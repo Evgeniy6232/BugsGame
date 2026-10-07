@@ -1,3 +1,68 @@
 <resources>
     <string name="app_name">Bugs Game</string>
+
+    <!-- Экран регистрации -->
+    <string name="registration_title">Регистрация игрока</string>
+
+    <string name="full_name_label">ФИО</string>
+    <string name="full_name_error">Введите ФИО</string>
+
+    <string name="gender_label">Пол</string>
+    <string name="gender_man">Мужской</string>
+    <string name="gender_woman">Женский</string>
+    <string name="gender_error">Выберите пол</string>
+
+    <string name="course_label">Курс</string>
+    <string name="course_error">Выберите курс</string>
+
+    <string name="difficulty_label">Уровень сложности</string>
+    <string name="difficulty_easy">Легко</string>
+    <string name="difficulty_medium">Средне</string>
+    <string name="difficulty_hard">Сложно</string>
+
+    <string name="birth_date_label">Дата рождения</string>
+    <string name="birth_date_error">Выберите дату рождения</string>
+
+    <string name="register_button">Зарегистрировать</string>
+    <string name="ok">ОК</string>
+    <string name="cancel">Отмена</string>
+
+    <string-array name="courses">
+        <item>1 курс</item>
+        <item>2 курс</item>
+        <item>3 курс</item>
+        <item>4 курс</item>
+
+    </string-array>
+
+    <string name="result_title">Результат регистрации</string>
+    <string name="result_full_name">ФИО</string>
+    <string name="result_gender">Пол</string>
+    <string name="result_course">Курс</string>
+    <string name="result_difficulty">Сложность</string>
+    <string name="result_birth_date">Дата рождения</string>
+    <string name="result_zodiac">Знак зодиака</string>
+    <string name="no_data">Нет данных</string>
+
+    <string name="zodiac_capricorn">Козерог</string>
+    <string name="zodiac_aquarius">Водолей</string>
+    <string name="zodiac_pisces">Рыбы</string>
+    <string name="zodiac_aries">Овен</string>
+    <string name="zodiac_taurus">Телец</string>
+    <string name="zodiac_gemini">Близнецы</string>
+    <string name="zodiac_cancer">Рак</string>
+    <string name="zodiac_leo">Лев</string>
+    <string name="zodiac_virgo">Дева</string>
+    <string name="zodiac_libra">Весы</string>
+    <string name="zodiac_scorpio">Скорпион</string>
+    <string name="zodiac_sagittarius">Стрелец</string>
+
+    <string name="tab_form">Форма</string>
+    <string name="tab_rules">Правила</string>
+    <string name="tab_authors">Авторы</string>
+    <string name="tab_settings">Настройки</string>
+
+    <string name="rules_title">Правила игры</string>
+    <string name="authors_title">Список авторов</string>
+    <string name="settings_title">Настройки игры</string>
 </resources>

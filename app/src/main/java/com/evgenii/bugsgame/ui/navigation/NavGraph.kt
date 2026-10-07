@@ -7,6 +7,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.evgenii.bugsgame.ui.main.MainScreen
 import com.evgenii.bugsgame.ui.registration.RegistrationScreen
 import com.evgenii.bugsgame.ui.registration.RegistrationViewModel
 import com.evgenii.bugsgame.ui.result.ResultScreen
@@ -18,11 +19,11 @@ fun NavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.REGISTRATION
+        startDestination = Routes.MAIN
     ) {
-        composable(Routes.REGISTRATION) {
-            RegistrationScreen(
-                viewModel = registrationViewModel,
+        composable(Routes.MAIN) {
+            MainScreen(
+                registrationViewModel = registrationViewModel,
                 onNavigateToResult = { navController.navigate(Routes.RESULT) }
             )
         }

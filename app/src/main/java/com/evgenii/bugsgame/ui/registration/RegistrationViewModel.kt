@@ -11,7 +11,7 @@ import java.time.LocalDate
 
 class RegistrationViewModel (
     private val getZodiacSignUseCase: GetZodiacSignUseCase
-) : ViewModel {
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RegistrationUiState())
     val uiState: StateFlow<RegistrationUiState> = _uiState.asStateFlow()
@@ -36,7 +36,7 @@ class RegistrationViewModel (
         _uiState.update { it.copy(birthDate = date, birthDateError = false) }
     }
 
-    fun onSubmit() {
+    fun onSubmit(): Boolean {
         val state = _uiState.value
 
         val nameError = state.fullName.isBlank()
@@ -53,7 +53,7 @@ class RegistrationViewModel (
                     birthDateError = birthDateError
                 )
             }
-            return
+            return false
         }
 
         val zodiac = getZodiacSignUseCase(state.birthDate)
@@ -69,5 +69,6 @@ class RegistrationViewModel (
         )
 
         _uiState.update { it.copy(result = player) }
+        return true
     }
 }
