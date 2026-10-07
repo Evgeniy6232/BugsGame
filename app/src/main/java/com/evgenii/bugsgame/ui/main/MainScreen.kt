@@ -15,8 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.evgenii.bugsgame.R
+import com.evgenii.bugsgame.ui.authors.AuthorsScreen
 import com.evgenii.bugsgame.ui.registration.RegistrationScreen
 import com.evgenii.bugsgame.ui.registration.RegistrationViewModel
+import com.evgenii.bugsgame.ui.rules.RulesScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -57,8 +59,8 @@ fun MainScreen(
                     viewModel = registrationViewModel,
                     onNavigateToResult = onNavigateToResult
                 )
-                MainTab.RULES -> TabStub(stringResource(R.string.rules_title))
-                MainTab.AUTHORS -> TabStub(stringResource(R.string.authors_title))
+                MainTab.RULES -> RulesScreen()
+                MainTab.AUTHORS -> AuthorsScreen()
                 MainTab.SETTINGS -> TabStub(stringResource(R.string.settings_title))
             }
         }
