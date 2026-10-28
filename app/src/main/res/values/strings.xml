@@ -72,4 +72,15 @@
     <string name="setting_round_duration">Длительность раунда</string>
     <string name="unit_pieces">шт.</string>
     <string name="unit_seconds">сек</string>
+
+    <string name="nav_start_game">Начать игру</string>
+    <string name="game_score">Очки</string>
+    <string name="game_time">Время</string>
+    <string name="game_hits">Попадания</string>
+    <string name="game_misses">Промахи</string>
+    <string name="game_accuracy">Точность</string>
+    <string name="game_exit">Выйти в меню</string>
+    <string name="game_round_over">Раунд завершён</string>
+    <string name="game_play_again">Играть снова</string>
+    <string name="game_back_to_menu">В меню</string>
 </resources>
