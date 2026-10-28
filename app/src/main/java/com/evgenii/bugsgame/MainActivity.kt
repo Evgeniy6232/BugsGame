@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.evgenii.bugsgame.ui.navigation.NavGraph
 import com.evgenii.bugsgame.ui.registration.RegistrationViewModel
+import com.evgenii.bugsgame.ui.settings.SettingsViewModel
 import com.evgenii.bugsgame.ui.theme.BugsGameTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -20,6 +21,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val registrationViewModel: RegistrationViewModel = koinViewModel()
+            val settingsViewModel: SettingsViewModel = koinViewModel()
 
             BugsGameTheme {
                 Surface(
@@ -28,8 +30,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     NavGraph(
                         navController = rememberNavController(),
-                        registrationViewModel = registrationViewModel
-                    )
+                        registrationViewModel = registrationViewModel,
+                        settingsViewModel = settingsViewModel                    )
                 }
             }
         }
