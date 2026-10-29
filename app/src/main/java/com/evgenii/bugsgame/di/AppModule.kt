@@ -1,6 +1,7 @@
 package com.evgenii.bugsgame.di
 
 import com.evgenii.bugsgame.domain.usecase.GetZodiacSignUseCase
+import com.evgenii.bugsgame.ui.game.GameViewModel
 import com.evgenii.bugsgame.ui.registration.RegistrationViewModel
 import com.evgenii.bugsgame.ui.settings.SettingsViewModel
 import org.koin.core.module.dsl.viewModel
@@ -13,4 +14,6 @@ val appModule = module {
     viewModel { RegistrationViewModel(get()) }
 
     viewModel { SettingsViewModel() }
+
+    viewModel { GameViewModel() }
 }
