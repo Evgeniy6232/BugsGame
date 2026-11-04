@@ -13,3 +13,9 @@ data class GameSettings(
         val ROUND_DURATION_RANGE = 30..60
     }
 }
+
+fun GameSettings.roundDifficulty(): Difficulty = when (speed) {
+    in 1..2 -> Difficulty.EASY
+    3 -> Difficulty.MEDIUM
+    else -> Difficulty.HARD
+}
