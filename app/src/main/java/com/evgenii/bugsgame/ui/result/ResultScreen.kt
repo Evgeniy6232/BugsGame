@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +30,10 @@ import com.evgenii.bugsgame.ui.common.zodiacRes
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun ResultScreen(player: Player?) {
+fun ResultScreen(
+    player: Player?,
+    onBack: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,6 +66,15 @@ fun ResultScreen(player: Player?) {
                 contentDescription = zodiacLabel(player.zodiac),
                 modifier = Modifier.size(160.dp)
             )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Button(
+            onClick = onBack,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = stringResource(R.string.result_back))
         }
     }
 }

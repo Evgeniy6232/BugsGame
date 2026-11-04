@@ -48,6 +48,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun GameScreen(
     settings: GameSettings,
+    playerId: Long?,
     onExit: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: GameViewModel = koinViewModel()
@@ -61,6 +62,7 @@ fun GameScreen(
         if (arenaSize.width > 0 && arenaSize.height > 0) {
             viewModel.startRound(
                 settings = settings,
+                playerId = playerId,
                 width = arenaSize.width.toFloat(),
                 height = arenaSize.height.toFloat(),
                 density = density
@@ -110,6 +112,7 @@ fun GameScreen(
                 onReplay = {
                     viewModel.startRound(
                         settings = settings,
+                        playerId = playerId,
                         width = arenaSize.width.toFloat(),
                         height = arenaSize.height.toFloat(),
                         density = density
@@ -223,6 +226,22 @@ private fun GameResultPanel(
                     label = stringResource(R.string.game_accuracy),
                     value = "${state.accuracyPercent}%"
                 )
+
+                state.recordOutcome?.let { outcome ->
+                    Text(
+                        text = when (outcome) {
+                            RecordOutcome.RECORD -> stringResource(R.string.record_saved)
+                            RecordOutcome.NOT_RECORD -> stringResource(R.string.record_not_saved)
+                            RecordOutcome.GUEST -> stringResource(R.string.record_guest)
+                        },
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = if (outcome == RecordOutcome.RECORD) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        }
+                    )
+                }
 
                 Spacer(Modifier.height(4.dp))
 

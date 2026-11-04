@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -19,6 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.evgenii.bugsgame.R
 import com.evgenii.bugsgame.domain.model.Difficulty
 import com.evgenii.bugsgame.domain.model.Gender
+import com.evgenii.bugsgame.domain.model.SavedPlayer
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
@@ -45,6 +47,13 @@ fun RegistrationScreen(
         Text(
             text = stringResource(R.string.registration_title),
             style = MaterialTheme.typography.headlineMedium
+        )
+
+        PlayerSelector(
+            players = uiState.savedPlayers,
+            selectedId = uiState.selectedPlayerId,
+            onSelect = viewModel::onPlayerSelected,
+            onNewPlayer = viewModel::onNewPlayer
         )
 
         FullNameField(
@@ -78,13 +87,74 @@ fun RegistrationScreen(
 
         Button(
             onClick = {
-                if (viewModel.onSubmit()) {
+                if (uiState.selectedPlayerId != null) {
                     onNavigateToResult()
+                } else {
+                    viewModel.onSubmit { onNavigateToResult() }
                 }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = stringResource(R.string.register_button))
+            Text(
+                text = stringResource(
+                    if (uiState.selectedPlayerId != null) R.string.continue_button
+                    else R.string.register_button
+                )
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PlayerSelector(
+    players: List<SavedPlayer>,
+    selectedId: Long?,
+    onSelect: (Long) -> Unit,
+    onNewPlayer: () -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val selected = players.firstOrNull { it.id == selectedId }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it }
+    ) {
+        OutlinedTextField(
+            value = selected?.fullName ?: stringResource(R.string.player_new),
+            onValueChange = {},
+            readOnly = true,
+            label = { Text(stringResource(R.string.player_label)) },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            modifier = Modifier
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .fillMaxWidth()
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            players.forEach { player ->
+                DropdownMenuItem(
+                    text = { Text(player.fullName) },
+                    onClick = {
+                        onSelect(player.id)
+                        expanded = false
+                    }
+                )
+            }
+
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.player_new)) },
+                leadingIcon = { Icon(Icons.Default.Add, contentDescription = null) },
+                onClick = {
+                    onNewPlayer()
+                    expanded = false
+                }
+            )
         }
     }
 }
@@ -180,7 +250,7 @@ private fun CourseSelector(
                 if (isError) Text(stringResource(R.string.course_error))
             },
             modifier = Modifier
-                .menuAnchor(MenuAnchorType.PrimaryNotEditable)
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
                 .fillMaxWidth()
         )
 

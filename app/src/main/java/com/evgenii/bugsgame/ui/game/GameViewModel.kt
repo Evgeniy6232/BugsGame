@@ -1,19 +1,26 @@
 package com.evgenii.bugsgame.ui.game
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.evgenii.bugsgame.data.repository.RecordRepository
 import com.evgenii.bugsgame.domain.model.Bug
 import com.evgenii.bugsgame.domain.model.BugType
 import com.evgenii.bugsgame.domain.model.GameSettings
+import com.evgenii.bugsgame.domain.model.RoundResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
-class GameViewModel : ViewModel() {
+class GameViewModel(
+    private val recordRepository: RecordRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
@@ -21,7 +28,13 @@ class GameViewModel : ViewModel() {
     private val random = Random.Default
     private var nextBugId = 1L
 
-    fun startRound(settings: GameSettings, width: Float, height: Float, density: Float) {
+    fun startRound(
+        settings: GameSettings,
+        playerId: Long?,
+        width: Float,
+        height: Float,
+        density: Float
+    ) {
         val state = _uiState.value
 
         if (state.isRunning) {
@@ -41,7 +54,8 @@ class GameViewModel : ViewModel() {
             arenaWidth = width,
             arenaHeight = height,
             density = density,
-            spawnCooldown = 0f
+            spawnCooldown = 0f,
+            playerId = playerId
         )
 
         val paddingPx = GameConfig.WALL_PADDING_DP * density
@@ -58,10 +72,12 @@ class GameViewModel : ViewModel() {
         val newElapsed = state.elapsedSec + dt
 
         if (newElapsed >= state.settings.roundDurationSec) {
-            _uiState.value = state.copy(
+            val finished = state.copy(
                 elapsedSec = state.settings.roundDurationSec.toFloat(),
                 status = GameStatus.FINISHED
             )
+            _uiState.value = finished
+            saveRoundResult(finished)
             return
         }
 
@@ -109,6 +125,37 @@ class GameViewModel : ViewModel() {
                 score = (state.score - GameConfig.MISS_PENALTY).coerceAtLeast(0),
                 misses = state.misses + 1
             )
+        }
+    }
+
+    private fun saveRoundResult(state: GameUiState) {
+        val playerId = state.playerId
+
+        if (playerId == null) {
+            _uiState.update { it.copy(recordOutcome = RecordOutcome.GUEST) }
+            return
+        }
+
+        val result = RoundResult(
+            playerId = playerId,
+            score = state.score,
+            hits = state.hits,
+            misses = state.misses,
+            settings = state.settings,
+            playedAt = System.currentTimeMillis()
+        )
+
+        viewModelScope.launch {
+            val saved = recordRepository.saveIfRecord(result)
+            _uiState.update {
+                if (it.status == GameStatus.FINISHED) {
+                    it.copy(
+                        recordOutcome = if (saved) RecordOutcome.RECORD else RecordOutcome.NOT_RECORD
+                    )
+                } else {
+                    it
+                }
+            }
         }
     }
 

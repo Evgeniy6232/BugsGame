@@ -33,15 +33,21 @@ fun NavGraph(
 
         composable(Routes.GAME) {
             val settings by settingsViewModel.settings.collectAsStateWithLifecycle()
+            val registration by registrationViewModel.uiState.collectAsStateWithLifecycle()
+
             GameScreen(
                 settings = settings,
+                playerId = registration.currentPlayerId,
                 onExit = { navController.popBackStack() }
             )
         }
 
         composable(Routes.RESULT) {
             val uiState by registrationViewModel.uiState.collectAsStateWithLifecycle()
-            ResultScreen(player = uiState.result)
+            ResultScreen(
+                player = uiState.result,
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }

@@ -24,6 +24,10 @@
     <string name="birth_date_error">Выберите дату рождения</string>
 
     <string name="register_button">Зарегистрировать</string>
+    <string name="continue_button">Продолжить</string>
+    <string name="player_label">Игрок</string>
+    <string name="player_new">Новый игрок</string>
+    <string name="guest_hint">Игрок не выбран — играете как гость, результат не сохранится</string>
     <string name="ok">ОК</string>
     <string name="cancel">Отмена</string>
 
@@ -43,6 +47,7 @@
     <string name="result_birth_date">Дата рождения</string>
     <string name="result_zodiac">Знак зодиака</string>
     <string name="no_data">Нет данных</string>
+    <string name="result_back">В меню</string>
 
     <string name="zodiac_capricorn">Козерог</string>
     <string name="zodiac_aquarius">Водолей</string>
@@ -61,6 +66,7 @@
     <string name="tab_rules">Правила</string>
     <string name="tab_authors">Авторы</string>
     <string name="tab_settings">Настройки</string>
+    <string name="tab_records">Рекорды</string>
 
     <string name="rules_title">Правила игры</string>
     <string name="authors_title">Список авторов</string>
@@ -83,4 +89,12 @@
     <string name="game_round_over">Раунд завершён</string>
     <string name="game_play_again">Играть снова</string>
     <string name="game_back_to_menu">В меню</string>
+
+    <string name="record_saved">Рекорд обновлён!</string>
+    <string name="record_not_saved">Не лучше прежнего рекорда</string>
+    <string name="record_guest">Гость — результат не сохранён</string>
+
+    <string name="records_title">Рекорды</string>
+    <string name="records_empty">Пока нет результатов — сыграйте первый раунд</string>
+    <string name="records_details">%1$s · скорость %2$d · %3$d жуков · %4$d с</string>
 </resources>

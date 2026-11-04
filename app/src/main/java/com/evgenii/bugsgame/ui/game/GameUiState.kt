@@ -10,6 +10,12 @@ enum class GameStatus {
     FINISHED
 }
 
+enum class RecordOutcome {
+    RECORD,
+    NOT_RECORD,
+    GUEST
+}
+
 data class GameUiState(
     val status: GameStatus = GameStatus.IDLE,
     val bugs: List<Bug> = emptyList(),
@@ -21,7 +27,9 @@ data class GameUiState(
     val settings: GameSettings = GameSettings(),
     val arenaWidth: Float = 0f,
     val arenaHeight: Float = 0f,
-    val density: Float = 1f
+    val density: Float = 1f,
+    val playerId: Long? = null,
+    val recordOutcome: RecordOutcome? = null
 ) {
     val isRunning: Boolean get() = status == GameStatus.RUNNING
     val isFinished: Boolean get() = status == GameStatus.FINISHED
